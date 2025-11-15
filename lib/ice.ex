@@ -1,18 +1,12 @@
-defmodule Ice do
-  @moduledoc """
-  Documentation for `Ice`.
-  """
+defmodule Ice.Application do
+  use Application
 
-  @doc """
-  Hello world.
+  def start(_type, _args) do
+    children = [
+      {Plug.Cowboy, scheme: :http, plug: Ice.Router, options: [port: 4000]}
+    ]
 
-  ## Examples
-
-      iex> Ice.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    opts = [strategy: :one_for_one, name: Ice.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end

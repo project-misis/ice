@@ -33,7 +33,11 @@ config :spark,
         :identities
       ]
     ],
-    "Ash.Domain": [section_order: [:resources, :policies, :authorization, :domain, :execution]]
+    "Ash.Domain": [
+      section_order: [:resources, :policies, :authorization, :domain, :execution]
+    ]
   ]
+
+config :ice, :ash_domains, [Accounts.Domain]
 
 import_config "#{config_env()}.exs"
