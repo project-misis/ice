@@ -1,39 +1,33 @@
-defmodule Accounts.Schema.User do
+defmodule Repo.User do
   use Ash.Resource,
-    domain: Accounts.Domain,
+    domain: Repo.Domain,
     data_layer: Ash.DataLayer.Ets,
     extensions: [AshJason.Resource]
 
   actions do
-    defaults([:read, :destroy])
+    defaults([:read, :destroy, :create, :update])
 
-    create :new do
-      accept([:first_name, :last_name, :email, :telegram, :role, :password])
-    end
+    default_accept([:first_name, :last_name, :email, :telegram, :role, :password, :pfp])
 
-    update :put do
-      accept([:first_name, :last_name, :email, :telegram, :role, :password])
-    end
-
-    update :become_mentor do
-      accept([])
-
-      validate attribute_does_not_equal(:role, :mentor) do
-        message("Account is already a mentor")
-      end
-
-      change(set_attribute(:role, :mentor))
-    end
-
-    update :become_normie do
-      accept([])
-
-      validate attribute_does_not_equal(:role, :normie) do
-        message("Account is already a normie")
-      end
-
-      change(set_attribute(:role, :normie))
-    end
+    # update :become_mentor do
+    #   accept([])
+    #
+    #   validate attribute_does_not_equal(:role, :mentor) do
+    #     message("Account is already a mentor")
+    #   end
+    #
+    #   change(set_attribute(:role, :mentor))
+    # end
+    #
+    # update :become_normie do
+    #   accept([])
+    #
+    #   validate attribute_does_not_equal(:role, :normie) do
+    #     message("Account is already a normie")
+    #   end
+    #
+    #   change(set_attribute(:role, :normie))
+    # end
   end
 
   attributes do
@@ -60,6 +54,11 @@ defmodule Accounts.Schema.User do
     end
 
     attribute :password, :string do
+      allow_nil?(false)
+      public?(false)
+    end
+
+    attribute :pfp, :string do
       allow_nil?(false)
       public?(false)
     end

@@ -38,6 +38,6 @@ config :spark,
     ]
   ]
 
-config :ice, :ash_domains, [Accounts.Domain]
+config :ice, :ash_domains, [Repo.Domain]
 
 import_config "#{config_env()}.exs"
