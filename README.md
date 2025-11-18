@@ -1,113 +1,146 @@
 # Ice
 
+## API Documentation
+
+---
+
 ## Endpoints
 
-### Список эндпоинтов
+### Users
 
-— **GET /users**  
-  Возвращает список пользователей. [Сущность: User](#user)
+#### List Users
+**Method:** GET  
+**Path:** `/users`  
+**Description:** Returns an array of all users.
+**Response:**
+- 200 OK: Array of [User](#user) objects
 
-— **GET /users/:id**  
-  Возвращает пользователя по его id. [Сущность: User](#user)
+#### Get User by ID
+**Method:** GET  
+**Path:** `/users/{id}`  
+**Description:** Returns details for a user by ID.
+**Response:**
+- 200 OK: [User](#user) object
+- 404 Not Found
 
-— **POST /users**  
-  Создаёт нового пользователя. В теле запроса нужно передать данные пользователя. [Сущность: User](#user)
-
-— **PUT /users/:id**  
-  Обновляет данные пользователя по id. В теле запроса передаются изменяемые данные. [Сущность: User](#user)
-
-— **DELETE /users/:id**  
-  Удаляет пользователя по id. [Сущность: User](#user)
-
-— **GET /books**  
-  Возвращает список всех книг. [Сущность: Book](#book)
-
-— **GET /books/:id**  
-  Возвращает книгу по её id. [Сущность: Book](#book)
-
-— **POST /books**  
-  Создаёт новую книгу. В теле запроса нужны данные книги. [Сущность: Book](#book)
-
-— **PUT /books/:id**  
-  Обновляет книгу по id. В теле запроса — изменяемые данные. [Сущность: Book](#book)
-
-— **DELETE /books/:id**  
-  Удаляет книгу по id. [Сущность: Book](#book)
-
-— **GET /events**  
-  Возвращает список событий. [Сущность: Event](#event)
-
-— **GET /events/:id**  
-  Возвращает событие по его id. [Сущность: Event](#event)
-
-— **POST /events**  
-  Создаёт новое событие. В теле запроса необходимы поля события. [Сущность: Event](#event)
-
-— **PUT /events/:id**  
-  Обновляет событие по id. В теле запроса — изменяемые данные. [Сущность: Event](#event)
-
-— **DELETE /events/:id**  
-  Удаляет событие по id. [Сущность: Event](#event)
-
-
-## Entities
-
-### User
-
-Schema:
+#### Create User
+**Method:** POST  
+**Path:** `/users`  
+**Description:** Creates a new user with provided data.
+**Request Body:**
 ```json
 {
-  "id": "string (UUID)",
   "first_name": "string",
   "last_name": "string",
   "email": "string",
   "telegram": "string",
-  "role": "string (enum: mentor, normie)",
+  "role": "mentor | normie",
   "pfp": "string",
-  "password": "string (not exposed)"
+  "password": "string"
 }
 ```
-#### Required fields
-- first_name
-- last_name
-- email
-- telegram
-- role (`mentor` or `normie`, default: `normie`)
-- pfp
-- password (only writable; not returned in responses)
+Required: All fields except `role` (default: normie)
+**Response:**
+- 200 OK: Created [User](#user)
+- 400 Bad Request
 
-#### Notes
-- `id` is auto-generated
-- Email must be unique
+#### Update User
+**Method:** PUT  
+**Path:** `/users/{id}`  
+**Description:** Update existing user’s information by ID.
+**Request Body:** (any subset of user fields)
+**Response:**
+- 200 OK: Updated [User](#user)
+- 404 Not Found
+
+#### Delete User
+**Method:** DELETE  
+**Path:** `/users/{id}`  
+**Description:** Remove a user by ID.
+**Response:**
+- 204 No Content
+- 404 Not Found
 
 ---
 
-### Book
+### Books
 
-Schema:
+#### List Books
+**Method:** GET  
+**Path:** `/books`  
+**Description:** Returns an array of all books.
+**Response:**
+- 200 OK: Array of [Book](#book) objects
+
+#### Get Book by ID
+**Method:** GET  
+**Path:** `/books/{id}`  
+**Description:** Returns details for a book by ID.
+**Response:**
+- 200 OK: [Book](#book) object
+- 404 Not Found
+
+#### Create Book
+**Method:** POST  
+**Path:** `/books`  
+**Description:** Creates a new book with provided data.
+**Request Body:**
 ```json
 {
-  "id": "string (UUID)",
   "name": "string",
   "author": "string",
   "language": "string",
   "link": "string"
 }
 ```
-#### Required fields
-- name
-- author
-- language
-- link
+Required: All fields
+**Response:**
+- 200 OK: Created [Book](#book)
+- 400 Bad Request
+
+#### Update Book
+**Method:** PUT  
+**Path:** `/books/{id}`  
+**Description:** Updates a book’s information by ID.
+**Request Body:** (any subset of book fields)
+**Response:**
+- 200 OK: Updated [Book](#book)
+- 404 Not Found
+
+#### Delete Book
+**Method:** DELETE  
+**Path:** `/books/{id}`  
+**Description:** Remove a book by ID.
+**Response:**
+- 204 No Content
+- 404 Not Found
 
 ---
 
-### Event
+### Events
 
-Schema:
+#### List Events
+**Method:** GET  
+**Path:** `/events`  
+**Description:** Returns an array of all events.
+**Response:**
+- 200 OK: Array of [Event](#event) objects
+
+#### Get Event by ID
+**Method:** GET  
+**Path:** `/events/{id}`  
+**Description:** Returns details for an event by ID.
+**Response:**
+- 200 OK: [Event](#event) object
+- 404 Not Found
+
+#### Create Event
+**Method:** POST  
+**Path:** `/events`  
+**Description:** Creates a new event with provided data.
+**Request Body:**
 ```json
 {
-  "id": "string (UUID)",
   "name": "string",
   "where": "string",
   "link": "string",
@@ -116,11 +149,74 @@ Schema:
   "end": "string"
 }
 ```
-#### Required fields
-- name
-- where
-- link
-- desc
-- start
-- end
+Required: All fields
+**Response:**
+- 200 OK: Created [Event](#event)
+- 400 Bad Request
+
+#### Update Event
+**Method:** PUT  
+**Path:** `/events/{id}`  
+**Description:** Updates an event’s information by ID.
+**Request Body:** (any subset of event fields)
+**Response:**
+- 200 OK: Updated [Event](#event)
+- 404 Not Found
+
+#### Delete Event
+**Method:** DELETE  
+**Path:** `/events/{id}`  
+**Description:** Remove an event by ID.
+**Response:**
+- 204 No Content
+- 404 Not Found
+
+---
+
+## Entities
+
+### User
+```json
+{
+  "id": "string (UUID)",
+  "first_name": "string",
+  "last_name": "string",
+  "email": "string (unique)",
+  "telegram": "string",
+  "role": "mentor | normie", // default: normie
+  "pfp": "string (profile picture URL)",
+  "password": "string (write-only)"
+}
+```
+- All fields are required except role (defaults to normie)
+- `password` is required on creation and never returned in responses
+- `id` is UUID, auto-generated
+
+### Book
+```json
+{
+  "id": "string (UUID)",
+  "name": "string",
+  "author": "string",
+  "language": "string",
+  "link": "string (URL)"
+}
+```
+- All fields required
+- `id` is UUID, auto-generated
+
+### Event
+```json
+{
+  "id": "string (UUID)",
+  "name": "string",
+  "where": "string",
+  "link": "string (URL)",
+  "desc": "string",
+  "start": "string (date/time)",
+  "end": "string (date/time)"
+}
+```
+- All fields required
+- `id` is UUID, auto-generated
 
