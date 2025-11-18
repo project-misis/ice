@@ -1,6 +1,7 @@
 # Docs
 
 [![Tests](https://github.com/project-misis/ice/actions/workflows/tests.yml/badge.svg)](https://github.com/project-misis/ice/actions/workflows/tests.yml)
+[![Coverage](https://img.shields.io/badge/coverage-artifact-blue)](https://github.com/project-misis/ice/actions/workflows/tests.yml)
 
 ## Endpoints
 
