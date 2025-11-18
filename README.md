@@ -1,8 +1,6 @@
-# Ice
+# Docs
 
-## API Documentation
-
----
+[![Tests](https://github.com/project-misis/ice/actions/workflows/tests.yml/badge.svg)](https://github.com/project-misis/ice/actions/workflows/tests.yml)
 
 ## Endpoints
 
