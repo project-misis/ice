@@ -67,6 +67,26 @@ defmodule Test.User do
     assert conn.status == 400
   end
 
+  # TODO: maybe someday we gonna move to postgres... but not today ^.^
+
+  # test "POST [/users] unique email violation -> 400" do
+  #   conn =
+  #     conn(:post, "/users", JSON.encode!(@test_user))
+  #     |> put_req_header("content-type", "application/json")
+  #     |> Ice.Router.call(@opts)
+  #
+  #   assert conn.state == :sent
+  #   assert conn.status == 200
+  #
+  #   conn =
+  #     conn(:post, "/users", JSON.encode!(@test_user))
+  #     |> put_req_header("content-type", "application/json")
+  #     |> Ice.Router.call(@opts)
+  #
+  #   assert conn.state == :sent
+  #   assert conn.status == 400
+  # end
+
   test "POST [/users] OK -> 200" do
     conn =
       conn(:post, "/users", JSON.encode!(@test_user))

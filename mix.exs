@@ -29,6 +29,7 @@ defmodule Ice.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:argon2_elixir, "~> 4.0"},
       {:excoveralls, "~> 0.18", only: :test, runtime: false},
       {:ash_jason, "~> 3.0"},
       {:plug_cowboy, "~> 2.0"},

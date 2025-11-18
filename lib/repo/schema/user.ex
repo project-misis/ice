@@ -4,30 +4,31 @@ defmodule Repo.User do
     data_layer: Ash.DataLayer.Ets,
     extensions: [AshJason.Resource]
 
+  import Utils.Argon
+
   actions do
-    defaults([:read, :destroy, :create, :update])
+    defaults([:read, :destroy, :update])
+
+    create :create do
+      change fn changeset, _ ->
+        pwd = Ash.Changeset.get_attribute(changeset, :password)
+        if pwd do
+          Ash.Changeset.change_attribute(changeset, :password, encode_pwd(pwd))
+        else
+          changeset
+        end
+      end
+
+    end
+    read :login do
+      get? true
+      argument :email, :string, allow_nil?: false
+      argument :pwd, :string, allow_nil?: false
+
+      filter expr(email == ^arg(:email) and verify_pwd(^arg(:pwd), password))
+    end
 
     default_accept([:first_name, :last_name, :email, :telegram, :role, :password, :pfp])
-
-    # update :become_mentor do
-    #   accept([])
-    #
-    #   validate attribute_does_not_equal(:role, :mentor) do
-    #     message("Account is already a mentor")
-    #   end
-    #
-    #   change(set_attribute(:role, :mentor))
-    # end
-    #
-    # update :become_normie do
-    #   accept([])
-    #
-    #   validate attribute_does_not_equal(:role, :normie) do
-    #     message("Account is already a normie")
-    #   end
-    #
-    #   change(set_attribute(:role, :normie))
-    # end
   end
 
   attributes do
@@ -60,7 +61,7 @@ defmodule Repo.User do
 
     attribute :pfp, :string do
       allow_nil?(false)
-      public?(false)
+      public?(true)
     end
 
     attribute :role, :atom do
@@ -70,7 +71,7 @@ defmodule Repo.User do
     end
   end
 
-  # identities do
-  #   identity :unique_email, [:email]
-  # end
+  identities do
+    identity :unique_email, [:email]
+  end
 end

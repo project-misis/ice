@@ -39,5 +39,6 @@ config :spark,
   ]
 
 config :ice, :ash_domains, [Repo.Domain]
+config :ice, :secret_key_pwd, "1234567890123456"
 
 import_config "#{config_env()}.exs"
